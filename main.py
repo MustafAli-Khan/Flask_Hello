@@ -2,22 +2,42 @@ from flask import Flask
 
 app = Flask(__name__)
 
-print(__name__)
-
-@app.route("/")
+@app.route('/')
 def hello_world():
-    return '<h1 style = "text-align: center">Hello, World!</h1>'\
-           '<p>Giddy Up.</p>'\
-           '<img src ="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcTdkMDVqYndyeGp4YWkwcjlnanE1eDM1cmpuanB5MXUwYnBodW5pbCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2A75RyXVzzSI2bx4Gj/giphy.webp" width = 500>'
+    return "<h1 style='text-align: center'>Commando ;) </h1>" \
+           "<p>Meow, Meow </p>" \
+           "<img src='https://media.giphy.com/media/hvS1eKlR75hMr0l7VJ/giphy.gif'>"
+
+
+def make_bold(function):
+    def wrapper_function():
+        text = function()
+        return f"<b>{text}</b>"
+    return wrapper_function
+
+def make_emphasis(function):
+    def wrapper():
+        return "<em>" + function() + "</em>"
+    return wrapper
+
+def make_underlined(function):
+    def wrapper_function():
+        text = function()
+        return f"<u>{text}</u>"
+    return wrapper_function
 
 
 @app.route("/bye")
+@make_bold
+@make_emphasis
+@make_underlined
 def say_bye():
-    return "Bye!"
+    return "Bye"
 
-@app.route("/username/<name>/<int:number>")
-def say_name(name, number):
-    return f"Hello, {name}! you are {number} year old "
+@app.route("/<name>/<int:number>")
+def greet(name, number):
+    return f"Hello {name}, you are {number} years old!"
 
 if __name__ == "__main__":
     app.run(debug=True)
+
